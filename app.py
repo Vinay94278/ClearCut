@@ -68,8 +68,9 @@ def main():
         image = Image.open(uploaded_file).convert("RGB")
 
         # Store the original image in session state
-        if 'original_image' not in st.session_state:
-            st.session_state['original_image'] = image
+        st.session_state['original_image'] = image
+        st.session_state['masked_image'] = None
+        st.session_state['masked_image_with_bg'] = None
 
         # Color selection
         st.subheader("Select background color:")
@@ -114,32 +115,34 @@ def main():
             st.image(original_image, caption='Original Image', use_column_width=True)
 
         with col2:
-            st.image(masked_image, caption='Removed Background', use_column_width=True)
-            # Convert the removed background image to PNG and create download link
-            masked_image_pil = Image.fromarray(masked_image, 'RGBA')
-            buffered_removed_bg = BytesIO()
-            masked_image_pil.save(buffered_removed_bg, format="PNG")
-            buffered_removed_bg.seek(0)
-            st.download_button(
-                label="Download Removed BG Image",
-                data=buffered_removed_bg,
-                file_name="removed_bg.png",
-                mime="image/png"
-            )
+            if masked_image is not None:
+                st.image(masked_image, caption='Removed Background', use_column_width=True)
+                # Convert the removed background image to PNG and create download link
+                masked_image_pil = Image.fromarray(masked_image, 'RGBA')
+                buffered_removed_bg = BytesIO()
+                masked_image_pil.save(buffered_removed_bg, format="PNG")
+                buffered_removed_bg.seek(0)
+                st.download_button(
+                    label="Download Removed BG Image",
+                    data=buffered_removed_bg,
+                    file_name="removed_bg.png",
+                    mime="image/png"
+                )
 
         with col3:
-            st.image(masked_image_with_bg, caption='With New Background', use_column_width=True)
-            # Convert the new background image to PNG and create download link
-            masked_image_with_bg_pil = Image.fromarray(masked_image_with_bg)
-            buffered_with_bg = BytesIO()
-            masked_image_with_bg_pil.save(buffered_with_bg, format="PNG")
-            buffered_with_bg.seek(0)
-            st.download_button(
-                label="Download Image with New BG",
-                data=buffered_with_bg,
-                file_name="new_bg.png",
-                mime="image/png"
-            )
+            if masked_image_with_bg is not None:
+                st.image(masked_image_with_bg, caption='With New Background', use_column_width=True)
+                # Convert the new background image to PNG and create download link
+                masked_image_with_bg_pil = Image.fromarray(masked_image_with_bg)
+                buffered_with_bg = BytesIO()
+                masked_image_with_bg_pil.save(buffered_with_bg, format="PNG")
+                buffered_with_bg.seek(0)
+                st.download_button(
+                    label="Download Image with New BG",
+                    data=buffered_with_bg,
+                    file_name="new_bg.png",
+                    mime="image/png"
+                )
 
 if __name__ == "__main__":
     main()
