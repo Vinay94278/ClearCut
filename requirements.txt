@@ -1,5 +1,5 @@
 numpy
-opencv_python
+opencv-python
 Pillow
 tensorflow
 tensorflow_hub
