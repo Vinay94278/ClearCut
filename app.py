@@ -69,8 +69,6 @@ def main():
 
         # Store the original image in session state
         st.session_state['original_image'] = image
-        st.session_state['masked_image'] = None
-        st.session_state['masked_image_with_bg'] = None
 
         # Color selection
         st.subheader("Select background color:")
@@ -126,7 +124,8 @@ def main():
                     label="Download Removed BG Image",
                     data=buffered_removed_bg,
                     file_name="removed_bg.png",
-                    mime="image/png"
+                    mime="image/png",
+                    key='download_removed_bg'
                 )
 
         with col3:
@@ -141,7 +140,8 @@ def main():
                     label="Download Image with New BG",
                     data=buffered_with_bg,
                     file_name="new_bg.png",
-                    mime="image/png"
+                    mime="image/png",
+                    key='download_with_bg'
                 )
 
 if __name__ == "__main__":
