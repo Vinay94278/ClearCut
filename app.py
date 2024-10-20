@@ -5,7 +5,6 @@ import tensorflow as tf
 from tensorflow_hub import KerasLayer
 from io import BytesIO
 import cv2
-from u2net_portrait_composite import apply_u2net_portrait
 
 # Function to remove background using U2-Net model
 def remove_background(model, image):
